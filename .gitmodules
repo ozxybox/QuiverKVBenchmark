@@ -1,0 +1,6 @@
+[submodule "KVBench/Parsers/fastkv"]
+	path = KVBench/Parsers/fastkv
+	url = https://github.com/swissChili/fastkv.git
+[submodule "KVBench/Parsers/QuickKV"]
+	path = KVBench/Parsers/QuickKV
+	url = https://github.com/ozxybox/QuickKV.git
