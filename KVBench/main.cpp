@@ -70,7 +70,7 @@ public:
 	// returns in ms
 	float GetAverageParseTime()
 	{
-		return ( (float)m_parseStartTime ) / m_parseCount * CLOCKS_PER_SEC / 1000.0f;
+		return ( (float)m_parseTotalTime) / (float)m_parseCount * CLOCKS_PER_SEC / 1000.0f;
 	}
 
 
@@ -90,7 +90,7 @@ public:
 	// returns in ms
 	float GetAverageDeleteTime()
 	{
-		return ((float)m_deleteStartTime) / m_deleteCount * CLOCKS_PER_SEC / 1000.0f;
+		return ((float)m_deleteTotalTime) / m_deleteCount * CLOCKS_PER_SEC / 1000.0f;
 	}
 
 
