@@ -2,6 +2,10 @@
 #include <cstring>
 #include <time.h>
 
+#ifndef _WIN32
+#include <climits>
+#endif
+
 //Parsers
 
 /* This is C source code */
