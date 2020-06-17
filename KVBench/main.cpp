@@ -11,8 +11,16 @@ char* ReadFile(const char* path, int& len)
 {
 
 	FILE* f;
-	fopen_s(&f, path, "rb");
-	fseek(f, 0, SEEK_END);
+
+        /* Use the "safe" crt functions for windows and normal ones for POSIX systems */
+#ifdef _WIN32 
+        fopen_s(&f, path, "rb");
+#else
+        f = fopen(path, "rb");
+        if(!f) abort();
+#endif 
+
+        fseek(f, 0, SEEK_END);
 	len = ftell(f);
 	rewind(f);
 	char* str = (char*)malloc(len + 1);
