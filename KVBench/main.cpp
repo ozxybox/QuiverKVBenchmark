@@ -46,11 +46,15 @@ public:
 		m_parseTotalTime = 0;
 		m_parseStartTime = 0;
 		m_parseCount = 0;
+		m_parseMaxTime = LONG_MIN;
+		m_parseMinTime = LONG_MAX;
 
 
 		m_deleteTotalTime = 0;
 		m_deleteStartTime = 0;
 		m_deleteCount = 0;
+		m_deleteMaxTime = LONG_MIN;
+		m_deleteMinTime = LONG_MAX;
 	}
 
 
@@ -60,17 +64,37 @@ public:
 		m_parseStartTime = clock();
 	};
 
-	inline void StopParseTimer()
+	inline clock_t StopParseTimer()
 	{
 		clock_t stop = clock();
-		m_parseTotalTime += stop - m_parseStartTime;
+		clock_t timeTaken = stop - m_parseStartTime;
+		m_parseTotalTime += timeTaken;
 		m_parseCount++;
+
+		if (timeTaken > m_parseMaxTime)
+			m_parseMaxTime = timeTaken;
+		else if (timeTaken < m_parseMinTime)
+			m_parseMinTime = timeTaken;
+
+		return timeTaken;
 	};
 
 	// returns in ms
 	float GetAverageParseTime()
 	{
 		return ( (float)m_parseTotalTime) / (float)m_parseCount * CLOCKS_PER_SEC / 1000.0f;
+	}
+
+	// returns in ms
+	float GetMaxParseTime()
+	{
+		return ((float)m_parseMaxTime) * CLOCKS_PER_SEC / 1000.0f;
+	}
+
+	// returns in ms
+	float GetMinParseTime()
+	{
+		return ((float)m_parseMinTime) * CLOCKS_PER_SEC / 1000.0f;
 	}
 
 
@@ -80,11 +104,19 @@ public:
 		m_deleteStartTime = clock();
 	};
 
-	inline void StopDeleteTimer()
+	inline clock_t StopDeleteTimer()
 	{
 		clock_t stop = clock();
-		m_deleteTotalTime += stop - m_deleteStartTime;
+		clock_t timeTaken = stop - m_deleteStartTime;
+		m_deleteTotalTime += timeTaken;
 		m_deleteCount++;
+
+		if (timeTaken > m_deleteMaxTime)
+			m_deleteMaxTime = timeTaken;
+		else if (timeTaken < m_deleteMinTime)
+				m_deleteMinTime = timeTaken;
+
+		return timeTaken;
 	};
 
 	// returns in ms
@@ -93,12 +125,33 @@ public:
 		return ((float)m_deleteTotalTime) / m_deleteCount * CLOCKS_PER_SEC / 1000.0f;
 	}
 
+	// returns in ms
+	float GetMaxDeleteTime()
+	{
+		return ((float)m_deleteMaxTime) * CLOCKS_PER_SEC / 1000.0f;
+	}
+
+	// returns in ms
+	float GetMinDeleteTime()
+	{
+		return ((float)m_deleteMinTime) * CLOCKS_PER_SEC / 1000.0f;
+	}
+
+
+
 
 	void Print()
 	{
 		std::cout << "===" << m_name << "===\n";
-		std::cout << GetAverageParseTime() << " ms to parse\n\n";
-		std::cout << GetAverageDeleteTime() << " ms to delete\n";
+		std::cout << "Parsing:\n";
+		std::cout << "\tBest Time: " << GetMinParseTime() << " ms\n";
+		std::cout << "\tWorst Time: " << GetMaxParseTime() << " ms\n";
+		std::cout << "\tAverage Time: " << GetAverageParseTime() << " ms\n";
+		std::cout << "\n";
+		std::cout << "Deleting:\n";
+		std::cout << "\tBest Time: " << GetMinDeleteTime() << " ms\n";
+		std::cout << "\tWorst Time: " << GetMaxDeleteTime() << " ms\n";
+		std::cout << "\tAverage Time: " << GetAverageDeleteTime() << " ms\n";
 		std::cout << "===" << m_name << "===\n";
 	}
 
@@ -109,11 +162,15 @@ private:
 	clock_t m_parseTotalTime = 0;
 	clock_t m_parseStartTime = 0;
 	clock_t m_parseCount = 0;
+	clock_t m_parseMaxTime = LONG_MIN;
+	clock_t m_parseMinTime = LONG_MAX;
 
 
 	clock_t m_deleteTotalTime = 0;
 	clock_t m_deleteStartTime = 0;
 	clock_t m_deleteCount = 0;
+	clock_t m_deleteMaxTime = LONG_MIN;
+	clock_t m_deleteMinTime = LONG_MAX;
 
 
 };
