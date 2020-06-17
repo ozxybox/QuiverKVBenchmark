@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <cstring>
+#include <climits>
 #include <time.h>
 
 //Parsers
