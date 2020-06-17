@@ -3,7 +3,11 @@
 #include <time.h>
 
 //Parsers
+
+/* This is C source code */
+extern "C" {
 #include "Parsers/fastkv/fastkv.h"
+} 
 #include "Parsers/QuickKV/KVParser/quickkv.h"
 
 
